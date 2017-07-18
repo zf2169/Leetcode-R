@@ -316,6 +316,57 @@ array<- c(-1,2,1,-4)
 target<- 1
 sol_16(array, target)
 
+##########Letter Combinations of a Phone Number##########
+letter<- list(NA,
+              c("a", "b", "c"),
+              c("d", "e", "f"),
+              c("g", "h", "i"),
+              c("j", "k", "l"),
+              c("m", "n", "o"),
+              c("p", "q", "r", "s"),
+              c("t", "u", "v"),
+              c("w", "x", "y", "z"))
+#subfunction to combine two arrays
+combine<- function(v1, v2) {
+  n1<- length(v1)
+  n2<- length(v2)
+  ans<- NULL
+  for(i in 1:n1) {
+    for(j in 1:n2) {
+      ans<- cbind(ans, paste(v1[i], v2[j], sep = ""))
+    }
+  }
+  return(ans)
+}
+#main function
+sol_17<- function(numarray) {
+  numarray<- as.numeric(unlist(strsplit(numarray, split = "")))
+  n<- length(numarray)
+  result<- letter[[numarray[1]]]
+  for(i in 2:n) {
+    result<- combine(result, letter[[numarray[i]]])
+  }
+  return(result)
+}
+sol_17("234")
+
+##########4Sum##########
+library(gtools)
+foursum<- function(array) {
+  index<- permutations(n=length(array), r=4)
+  nums<- matrix(array[index], ncol = 4)
+  nums_clean<- nums[!duplicated(t(apply(nums,1,sort))),]
+  ans<- nums_clean[rowSums(nums_clean)==0,]
+  return(ans)
+}
+array<- c(1, 0, -1, 0, -2, 2)
+foursum(array)
+
+
+
+
+
+
 
 
 
