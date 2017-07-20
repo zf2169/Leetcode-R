@@ -9,7 +9,6 @@ solution1 <- function(str) {
   }
   return(result)
 }
-
 solution1(str)
 
 solution2<- function(number) {
@@ -23,8 +22,7 @@ solution2<- function(number) {
 }
 solution2(number)
 
-
-##########Two Sum##########
+##########1.Two Sum##########
 # twosum<- function(nums, target) {
 #   n<-length(nums)
 #   judge<-0
@@ -51,7 +49,7 @@ twosum<- function(nums, target) {
 }
 twosum(c(2,7,11,15), 13)
 
-##########add two numbers#########
+##########2.Add Two numbers#########
 addtwonumber<- function(a,b) {
   n<- max(length(a), length(b))
   anew<- rbind(a, rep(0, n - length(a)))
@@ -67,7 +65,7 @@ addtwonumber<- function(a,b) {
 }
 addtwonumber(c(8,5,3), c(5,6,4))
 
-###########longest substring##########
+###########3.longest substring##########
 longestsubatr<- function(s) {
   n<- nchar(s)
   ans_length<- 0
@@ -89,7 +87,7 @@ longestsubatr("abcabcbb")
 longestsubatr("bbbbbb")
 longestsubatr("pwwkew")
 
-##########Median of Two Sorted Arrays#########
+##########4.Median of Two Sorted Arrays#########
 sol_4<- function(nums1,nums2) {
   num<- c(nums1, nums2)
   return(median(num))
@@ -97,7 +95,7 @@ sol_4<- function(nums1,nums2) {
 sol_4(c(1,3), c(2))
 sol_4(c(1,2), c(3,4))
 
-##########Longest Palindromic Substring##########
+##########5.Longest Palindromic Substring##########
 sol_5<- function(input) {
   n<- nchar(input)
   out_len<- 0
@@ -125,7 +123,7 @@ sol_5("babad")
 sol_5("babab")
 sol_5("cbb")
 
-########## ZigZag Conversion##########
+##########6.ZigZag Conversion##########
 sol_6<- function(string, row_num) {
   ss<- unlist(strsplit(string, ""))
   count<- nchar(string)
@@ -151,7 +149,7 @@ sol_6<- function(string, row_num) {
 sol_6("PAYPALISHIRING",3)
 sol_6("PAYPALISHIRING",5)
 
-##########Reverse Integer##########
+##########7.Reverse Integer##########
 sol_7<- function(x) {
   char<- unlist(strsplit(as.character(abs(x)), ""))
   digit<- length(char)
@@ -169,7 +167,7 @@ sol_7(123)
 sol_7(-12323423)
 sol_7(1000000002)
 
-##########String to Integer (atoi)##########
+##########8.String to Integer (atoi)##########
 sol_8<- function(string) {
   expr<- "[0-9]{1}"
   ans<- unlist(regmatches(string, gregexpr(pattern = expr, string)))
@@ -177,7 +175,7 @@ sol_8<- function(string) {
 }
 sol_8("2342jjhj00798---=-=#@%^$939")
 
-#########Palindrome Number##########
+#########9.Palindrome Number##########
 sol_9<- function(number) {
   num<- unlist(strsplit(as.character(number), split = ""))
   n<- length(num)
@@ -192,7 +190,7 @@ sol_9(1234321)
 sol_9(12345789)
 sol_9(123456)
 
-##########Regular Expression Matching##########
+##########10.Regular Expression Matching##########
 isMatch<- function(string1, string2) {
   if(nchar(string2) < nchar(string1)) {return(as.logical(0))}
   n<- nchar(string2)
@@ -213,7 +211,7 @@ isMatch("aa","aa")
 isMatch("aab", "c*a*b")
 isMatch("ab", ".*")
 
-##########Container With Most Water##########
+##########11.Container With Most Water##########
 sol_11<- function(vec) {
   n<- length(vec)
   ans<- 0
@@ -232,16 +230,16 @@ sol_11<- function(vec) {
 }
 sol_11(c(3,5,2,1,1))
 
-##########Integer to Roman##########
+##########12.Integer to Roman##########
 as.roman(1233)
 
-##########Roman to Integer##########
+##########13.Roman to Integer##########
 sol_13<- function(roman) {
   return(as.numeric(as.roman(roman)))
 }
 sol_13("MCCXXXIII")
 
-##########Longest Common Prefix##########
+##########14.Longest Common Prefix##########
 sol_14<- function(strarray) {
   n<- length(strarray)
   l<- min(sapply(strarray, nchar))
@@ -259,7 +257,7 @@ strarray<- c("abcdasf", "abcdwet", "abcdyuiiyu","abcdjlhjkh")
 strarray<- rep("abcd", 5)
 sol_14(strarray)
 
-##########3Sum##########
+##########15.3Sum##########
 threesum<- function(numarray) {
   n<- length(numarray)
   result<- NULL
@@ -280,18 +278,7 @@ threesum<- function(numarray) {
 s<- c(-1, 0, 1, 2, -1, -4)
 threesum(s)
 
-a <- c(rep("A", 3), rep("B", 3), rep("C",2))
-b <- c(1,1,2,4,1,1,2,2)
-df <-data.frame(a,b)
-
-duplicated(df)
-
-
-
-
-
-
-##########3Sum Closest##########
+##########16.3Sum Closest##########
 sol_16<- function(array, target) {
   n<- length(array)
   ans_diff<- Inf
@@ -316,7 +303,7 @@ array<- c(-1,2,1,-4)
 target<- 1
 sol_16(array, target)
 
-##########Letter Combinations of a Phone Number##########
+##########17.Letter Combinations of a Phone Number##########
 letter<- list(NA,
               c("a", "b", "c"),
               c("d", "e", "f"),
@@ -350,7 +337,7 @@ sol_17<- function(numarray) {
 }
 sol_17("234")
 
-##########4Sum##########
+##########18.4Sum##########
 library(gtools)
 foursum<- function(array) {
   index<- permutations(n=length(array), r=4)
@@ -361,6 +348,55 @@ foursum<- function(array) {
 }
 array<- c(1, 0, -1, 0, -2, 2)
 foursum(array)
+
+##########19. Remove Nth Node From End of List##########
+sol_19<- function(numlist, n) {
+  l<- length(numlist)
+  ans<- numlist[-(l-n+1)]
+  return(ans)
+}
+sol_19(c(1,2,3,4,5), 2)
+
+##########20. Valid Parentheses##########
+sol_20<- function(str) {
+  punct<- c("(", ")","{", "}", "[", "]")
+  x<-unlist(strsplit(str, split = ""))
+  index<- vector("list",6)
+  for(i in 1:6) {
+    index[[i]] <- which(x==punct[i])
+  }
+  judge<- 0
+  if(length(index[[1]])==length(index[[2]]) &
+     length(index[[3]])==length(index[[4]]) &
+     length(index[[5]])==length(index[[6]])) {
+    
+    j<- sum(index[[1]]>index[[2]], index[[3]]>index[[4]],
+            index[[5]]>index[[6]])
+    if(j==0) {
+      if(sum(colSums(rbind(index[[1]], index[[2]]))%%2==0,
+            colSums(rbind(index[[3]], index[[4]]))%%2==0,
+            colSums(rbind(index[[5]], index[[6]]))%%2==0)==0) {
+        judge<- 1
+      }
+    }
+  }
+  return(as.logical(judge))
+}
+
+str<- "()"
+str<- "()[]{}"
+sol_20(str)
+
+##########21. Merge Two Sorted Lists##########
+sol_20<- function(l1,l2) {
+  return(c(l1,l2))
+}
+
+##########22. Generate Parentheses##########
+
+
+
+
 
 
 
