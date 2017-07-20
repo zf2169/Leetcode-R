@@ -358,25 +358,25 @@ sol_19<- function(numlist, n) {
 sol_19(c(1,2,3,4,5), 2)
 
 ##########20. Valid Parentheses##########
-sol_20<- function(str) {
-  punct<- c("(", ")","{", "}", "[", "]")
+Valid_Parentheses<- function(str) {
+  punct_front<- c("(", "[", "{")
+  punct_back<- c(")", "]", "}")
   x<-unlist(strsplit(str, split = ""))
-  index<- vector("list",6)
-  for(i in 1:6) {
-    index[[i]] <- which(x==punct[i])
-  }
+  index_front<- which(x%in%punct_front)
+  index_back<- which(x%in%punct_back)
   judge<- 0
-  if(length(index[[1]])==length(index[[2]]) &
-     length(index[[3]])==length(index[[4]]) &
-     length(index[[5]])==length(index[[6]])) {
-    
-    j<- sum(index[[1]]>index[[2]], index[[3]]>index[[4]],
-            index[[5]]>index[[6]])
-    if(j==0) {
-      if(sum(colSums(rbind(index[[1]], index[[2]]))%%2==0,
-            colSums(rbind(index[[3]], index[[4]]))%%2==0,
-            colSums(rbind(index[[5]], index[[6]]))%%2==0)==0) {
-        judge<- 1
+  if(sum(index_front > index_back)==0) {  
+    if(length(index_front)==length(index_back)) {
+      judge<- 1
+      n<- length(index_front)
+      for(i in 1:n) {
+        x_front<- x[index_front[n+1-i]]
+        i_back<- min(index_back[index_back>index_front[n+1-i]])
+        if(which(x_front %in% punct_front)!=
+           which(x[i_back] %in% punct_back)) {
+          judge<- 0
+          break
+        }
       }
     }
   }
@@ -385,19 +385,28 @@ sol_20<- function(str) {
 
 str<- "()"
 str<- "()[]{}"
-sol_20(str)
+Valid_Parentheses(str)
 
 ##########21. Merge Two Sorted Lists##########
-sol_20<- function(l1,l2) {
+sol_21<- function(l1,l2) {
   return(c(l1,l2))
 }
 
 ##########22. Generate Parentheses##########
-
-
-
-
-
+Generate_Parentheses<- function(n) {
+  library(gtools)
+  v<- rep(c("(", ")"),n)
+  index<- permutations(n=2*n,r=2*n)
+  ans<- NULL
+  for(i in 1:nrow(index)) {
+    a<- v[index[i,]]
+    a<- paste(a, collapse = "")
+    if(Valid_Parentheses(a)) {ans<- rbind(ans,a)}
+  }
+  ans<- ans[!duplicated(ans),]
+  return(ans)
+}
+Generate_Parentheses(4)
 
 
 
