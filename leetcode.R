@@ -408,12 +408,68 @@ Generate_Parentheses<- function(n) {
 }
 Generate_Parentheses(4)
 
+##########23. Merge k Sorted Lists##########
+#It is quite easy for R because R do not have issues about nodes
+#and can just combine several lists
+sol_23<- function(lists) {
+  ans<- NULL
+  k<- length(lists)
+  for(i in 1:k) {
+    ans<- c(ans, lists[[i]])
+  }
+  return(list(ans))
+}
+lists<- list(c(1,2,3), c(4,5))
+sol_23(lists)
 
+##########24. Swap Nodes in Pairs##########
+swap<- function(l) {
+  n<- length(l)
+  i<- 1
+  while(i<=(n-1)) {
+    a<- l[i]
+    l[i]<- l[i+1]
+    l[i+1]<- a
+    i<- i+2
+  }
+  return(l)
+}
+swap(c(1,2,3,4))
 
+##########25. Reverse Nodes in k-Group##########
+reverse_k_group<- function(l,k) {
+  n<- length(l)
+  num<- floor(n/k)
+  ans<- NULL
+  for(i in 1:num) {
+   subl<- l[((i-1)*k+1):(i*k)]
+   subans<- rep(NA, k)
+     for(j in 1:k) {
+       subans[k+1-j]<- subl[j]
+     }
+   ans<- c(ans, subans)
+  }
+  tail<- l[-(1:(num*k))]
+  ans<- c(ans, tail)
+  return(ans)
+}
+l<- c("a","b","c","d","e","f")
+reverse_k_group(l, 4)
 
+##########26. Remove Duplicates from Sorted Array##########
+removeDuplicates<- function(nums) {
+  r<- nums[!duplicated(nums)]
+  return(list(number= r, length= length(r)))
+}
+nums<- c(1,1,2,3,3,3,3,4,5,1)
+removeDuplicates(nums)
 
-
-
+##########27. Remove Element##########
+removeElement<- function(nums, val) {
+  ans<- nums[!(val==nums)]
+  return(list(number= ans, length= length(ans)))
+}
+removeElement(c(3,2,1,2,3), 3)
 
 
 
