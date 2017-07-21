@@ -9,7 +9,6 @@ solution1 <- function(str) {
   }
   return(result)
 }
-solution1(str)
 
 solution2<- function(number) {
   num<- strsplit(as.character(number), split = "")
@@ -20,7 +19,6 @@ solution2<- function(number) {
   }
   return(i)
 }
-solution2(number)
 
 ##########1.Two Sum##########
 # twosum<- function(nums, target) {
@@ -365,8 +363,8 @@ Valid_Parentheses<- function(str) {
   index_front<- which(x%in%punct_front)
   index_back<- which(x%in%punct_back)
   judge<- 0
-  if(sum(index_front > index_back)==0) {  
-    if(length(index_front)==length(index_back)) {
+  if(length(index_front)==length(index_back)) {  
+    if(sum(index_front > index_back)==0) {
       judge<- 1
       n<- length(index_front)
       for(i in 1:n) {
