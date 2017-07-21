@@ -471,5 +471,56 @@ removeElement<- function(nums, val) {
 }
 removeElement(c(3,2,1,2,3), 3)
 
+##########28. Implement strStr()##########
+strstr<- function(haystack, str) {
+  n<- nchar(haystack)
+  ans<- -1
+  for(i in 1:n) {
+    for(j in i:n) {
+      test<- substr(haystack, start = i, stop = j)
+      if(test==str) {
+        ans<- i
+        break
+      }
+    }
+  }
+  return(ans)
+}
+strstr("abcdefg", "cde")
+strstr("abcdefg", "ede")
 
+##########29. Divide Two Integers##########
+divide<- function(dividend, divisor) {
+  i<- 0
+  d<- dividend
+  while(divisor <= d) {
+    d<- d - divisor
+    i<- i+1
+  }
+  ans<- paste(dividend, "/", divisor, "=", i, sep = "")
+  if(d!=0) {ans<- paste(ans, "...", d, sep = "")}
+  return(ifelse(i==0, "MAX_INT", ans))
+}
+divide(45,3)
+divide(45,2)
 
+##########30. Substring with Concatenation of All Words#######
+findSubstring<- function(s, words) {
+  library(gtools)
+  ans<- NULL
+  k<- length(words)
+  #index that can rearrange the words
+  index<- permutations(n=k, r=k)
+  for(i in 1:nrow(index)) {
+    w<- words[index[i,]]
+    w<- paste(w, collapse = "")
+    ans<- c(ans, as.numeric(regexpr(pattern = w, text = s)))
+  }
+  #delete the cases that rearrange words do not appear in s
+  ans<- ans[ans>0]
+  return(sort(ans-1))
+}
+words<- c("foo", "bar")
+words<- c("foo", "ba")
+s<- "barfoothefoobarman"
+findSubstring(s, words)
