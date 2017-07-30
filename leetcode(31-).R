@@ -265,6 +265,88 @@ trap<- function(height) {
 trap(c(0,1,0,2,1,0,1,3,2,1,2,1))
 trap(c(0,1,0,0,1,0,1,3,2,1,2,1))
 
+##########43. Multiply Strings##########
+MultiplyStrings<- function(num1,num2) {
+  n1<- length(num1)
+  n2<- length(num2)
+  mat<- matrix(0, nrow = n1*n2, ncol = n1+n2)
+  n<- 1
+  for(i1 in 1:n1) {
+    for(i2 in 1:n2) {
+      mat[n, (i1+i2-1)]<- (num1[i1]*num2[i2])%/%10
+      mat[n, (i1+i2)]<- (num1[i1]*num2[i2])%%10
+      n<- n+1
+    }
+  }
+  k<- 1
+  tens<- 0
+  ans<- rep(0,(n1+n2))
+  for(j in rev(1:(n1+n2))) {
+    a<- sum(mat[,j])+tens
+    tens<- a%/%10
+    ans[k]<- a%%10
+    k<- k+1
+  }
+  if(a >= 10) {ans[k]<- tens}
+  return(rev(ans))
+}
+MultiplyStrings(c(1,9,7,9,9), c(9,9,8))
+
+##########44. Wildcard Matching##########
+isMatch<- function(s, p) {
+  if(nchar(p)<= nchar(s)) {
+    expr<- unlist(strsplit(p ,split = ""))
+    expr<- ifelse(expr=="?", ".{1}", expr)
+    expr<- ifelse(expr=="*", ".*", expr)
+    expr<- paste(expr, collapse = "")
+    if(regmatches(s, regexpr(pattern = expr, s))==s) {return(TRUE)}
+    else {return(FALSE)}
+  }
+  else {return(FALSE)}
+}
+isMatch("aa","a")
+isMatch("aa","aa")
+isMatch("aa", "*")
+isMatch("aab", "c*a*b")
+isMatch("ab", "?*")
+
+##########45. Jump Game II##########
+jump<- function(nums) {
+  n<- length(nums)
+  a<- 1
+  b<- 0
+  k<- 0
+  for(i in 1:n) {
+    if(a<i) {
+      a<- b
+      k<- k+1
+    }   
+    b<- max(b, i+nums[i])
+  }
+  return(k)
+}
+jump(c(2,3,1,1,4))
+jump(c(2,3,1,1,4,1,1))
+
+##########46. Permutations##########
+
+##########47. Permutations II##########
+
+##########48. Rotate Image##########
+
+##########49. Group Anagrams##########
+groupAnagrams<- function(strs) {
+  a<- sapply(strs, strsplit, split="")
+  a<- lapply(a, sort)
+  a<- unlist(lapply(a, paste, collapse=""))
+  index<- lapply(unique(a), function(x) {which(a==x)})
+  ans<- lapply(index, function(x) {strs[x]})
+  return(ans)
+}
+groupAnagrams(c("eat", "tea", "tan", "ate", "nat", "bat"))
+
+
+
 
 
 
