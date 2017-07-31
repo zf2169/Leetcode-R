@@ -345,6 +345,57 @@ groupAnagrams<- function(strs) {
 }
 groupAnagrams(c("eat", "tea", "tan", "ate", "nat", "bat"))
 
+##########50. Pow(x, n)##########
+myPow<- function(x, n) {
+  if(n==1) {return(x)}
+  else {
+    if(n%%2==0) {return(Recall(x, n/2)*Recall(x, n/2))}
+    else {return(x*Recall(x, n-1))}
+  }
+}
+myPow(2,8)
+myPow(3,3)
+
+##########51. N-Queens##########
+solveNQueens<- function(n) {
+  library(gtools)
+  index<- permutations(n=n, r=n)
+  ans<- NULL
+  for(k in 1:nrow(index)) {
+    judge<- 1
+    for(i in 1:(n-1)) {
+      test<- abs(index[k, (i+1):n]-index[k,i])
+      if(sum(test==c(1:(n-i)))!=0) {
+        judge<- 0
+        break
+      }
+    }
+    if(judge==1 & i==(n-1)) {ans<- rbind(ans, index[k,])}
+  }
+  display<- apply(ans, 1, function(vec) {
+    l<- length(vec)
+    mat<- matrix(".",l,l)
+    for(i in 1:l) {mat[i,vec[i]]<- "Q"}
+    mat<- apply(mat, 1, paste, collapse="")
+    return(mat)
+  })
+  colnames(display)<- paste("solution", 1:nrow(ans), sep = "")
+  return(display)
+}
+solveNQueens(4)
+solveNQueens(5)
+
+##########52. N-Queens II##########
+totalNQueens<- function(n) {
+  ans<- solveNQueens(n)
+  return(ncol(ans))
+}
+totalNQueens(4)
+totalNQueens(5)
+
+
+
+
 
 
 
