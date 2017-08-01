@@ -393,12 +393,75 @@ totalNQueens<- function(n) {
 totalNQueens(4)
 totalNQueens(5)
 
+##########53. Maximum Subarray##########
+maxSubArray<- function(nums) {
+  n<- length(nums)
+  ans<- 0
+  for(i in 1:n) {
+    for(j in 1:n) {
+      s<- sum(nums[i:j])
+      if(s>ans) {ans<- s
+      index<- c(i,j)}
+    }
+  }
+  return(nums[index[1]:index[2]])
+}
+maxSubArray(c(-2,1,-3,4,-1,2,1,-5,4))
 
+##########54. Spiral Matrix##########
+spiralOrder<- function(matrix) {
+  m<- nrow(matrix)
+  n<- ncol(matrix)
+  if(is.null(m)) {ans<- matrix}
+  else {
+    if(m==2) {ans<- c(matrix[1,], rev(matrix[2,]))}
+    else {
+      mat<- matrix[-c(1,m),-c(1,n)]
+      ans<- c(matrix[1, 1:n], matrix[2:m,n], 
+            rev(matrix[m, 1:(n-1)]),
+            rev(matrix[2:(m-1),1]), 
+            Recall(mat))
+    }
+  }
+  return(ans)
+}
+spiralOrder(matrix)
+spiralOrder(matrix(1:8,4))
 
+##########55. Jump Game##########
+canJump<- function(nums) {
+  n<- length(nums)
+  judge<- 0
+  for(i in 1:n) {
+    max_now<- i+nums[i]
+    if(max_now>=n) {judge<- 1}
+    if(max_now<=i) {break}
+  }
+  return(as.logical(judge))
+}
 
+canJump(c(2,3,1,1,4))
+canJump(c(3,2,1,0,1))
 
-
-
+##########56. Merge Intervals##########
+mergeintervals<- function(intervals) {
+  n<- nrow(intervals)
+  inter<- intervals[order(intervals[,1]),]
+  ans<- NULL
+  i<- 2
+  while(i <= n) {
+    if(inter[i,1] %in% inter[i-1,1]:inter[i-1,2])
+    {
+      new<- c(inter[i-1,1], max(inter[i-1,2], inter[i,2]))
+      inter<- rbind(new, inter[-c(1,2),])
+      n<- n-1
+    }
+    else {i<- i+1}
+  }
+  return(inter)
+}
+intervals<- rbind(c(1,3), c(2,6), c(8,10), c(15,18))
+mergeintervals(intervals)
 
 
 
