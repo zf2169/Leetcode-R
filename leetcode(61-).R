@@ -1,5 +1,10 @@
 ##########61. Rotate List##########
-
+rotateRight<- function(head, k) {
+  n<- length(head)
+  r<- k %% n
+  return(c(head[(n-r+1):n], head[1:(n-r)]))
+}
+rotateRight(c(1,2,3,4,5), 2)
 
 ##########62. Unique Paths##########
 uniquePaths_method1<- function(m, n) {
@@ -264,11 +269,244 @@ sortColors<- function(nums) {
 sortColors(c(0,1,2,2,2,2,2,1,1,1,0,0,0))
 
 ##########76. Minimum Window Substring##########
+#construct a window and move the left and right index,
+#thus the complexity would be O(n) because it at most 
+#traverse all the alphabets in s
 minWindow<- function(s, t) {
+  sss<- unlist(strsplit(s, split = ""))
+  ttt<- unlist(strsplit(t, split = ""))
+  index<- lapply(ttt, function(x) {return(which(sss==x))})
+  n<- length(sss); left<- 1; right<- n
+  if(sum(sapply(index, function(x) { 
+    return(sum(x %in% 1:n==0)) }))!=0) {return("")}
   
+  #windoe searches from left
+  repeat {
+    #if it is other alphabets, directly move the left index
+    if(!(sss[left] %in% ttt)) {left<- left+1; next;}
+    else {
+      #when the function return TRUE means the string do not
+      #contain this alphabet
+      judge_1<- sapply(index, function(x, start, end) {
+        return(sum(x %in% c(start:end))==0) }, 
+        start=left+1, end=right)
+      if(sum(judge_1)==0) { left<- left+1 }
+      else {
+        if(!(sss[right] %in% ttt)) {right<- right-1}
+        else {
+          judge_2<- sapply(index, function(x, start, end) {
+            return(sum(x %in% c(start:end))==0) }, 
+            start=left, end=right-1)
+          if(sum(judge_2)==0) { right<- right-1 }
+          else {break}
+        }
+      }
+    }
+  }
+  ans<- c(left, right); minlen<- right-left+1
+  left<- 1; right<- n;
+  # search from right
+  repeat {
+    if(!(sss[right] %in% ttt)) {right<- right-1; next;}
+    else {
+      #when the function return TRUE means the string do not
+      #contain this alphabet
+      judge_1<- sapply(index, function(x, start, end) {
+        return(sum(x %in% c(start:end))==0) }, 
+        start=left, end=right-1)
+      if(sum(judge_1)==0) { right<- right-1 }
+      else {
+        if(!(sss[left] %in% ttt)) {left<- left+1}
+        else {
+          judge_2<- sapply(index, function(x, start, end) {
+            return(sum(x %in% c(start:end))==0) }, 
+            start=left+1, end=right)
+          if(sum(judge_2)==0) { left<- left+1 }
+          else {break}
+        }
+      }
+    }
+  }
+  if((right-left+1) <= minlen) {
+    return(paste(sss[left:right], collapse = ""))
+  }
+  else {
+    return(paste(sss[ans[1]:ans[2]], collapse = ""))
+  }
+}
+s = "ADOBECODEBANC"
+t = "ABC"
+minWindow(s, t)
+minWindow("abcdddddddddda","abc")
+
+##########77. Combinations##########
+combine<- function(n, k) {
+  sub<- function(nums,k) {
+    if(k==1) { return(matrix(nums, ncol=1))  }
+    else {
+      if(k==length(nums)) {return(matrix(nums, nrow = 1))}
+      else {
+        ans<- rbind(cbind(nums[1], Recall(nums[-1],k-1)),
+                    Recall(nums[-1], k))
+        return(ans)
+        }
+    }
+  }
+  result<- sub(1:n, k)
+  return(result)
+}
+combine(6,4)
+combine(6,1)
+combine(6,6)
+
+##########78. Subsets##########
+subsets<- function(nums) {
+  n<- length(nums)
+  ans<- vector("list")
+  for(i in 2:(n-1)) {
+    index<- combine(n, i)
+    ans[[i]]<-t(apply(index, 1, function(x){nums[x]}))
+  }
+  ans[[1]]<- matrix(nums, ncol = 1)
+  ans[[i+1]]<- nums
+  ans[[i+2]]<- ""
+  return(ans)
+}
+subsets(c(1,2,3,4))
+
+##########79. Word Search##########
+exist<- function(board, word) {
   
 }
- 
+board<- rbind(c('A','B','C','E'),c('S','F','C','S'),
+               c('A','D','E','E'))
+word <- "ABCCED"
+
+##########80. Remove Duplicates from Sorted Array II##########
+removeDuplicates<- function(nums) {
+  amount<- table(nums)
+  dup<- ifelse(amount>=2, 2, amount)
+  ans<- NULL
+  for(i in 1:length(dup)) {
+    ans<- c(ans, rep(as.numeric(names(amount))[i], dup[i]))
+  }
+  return(ans)
+}
+removeDuplicates(c(1,7,1,2,2,3,4,4,4,4,4))
+
+##########81. Search in Rotated Sorted Array II##########
+search<- function(nums, target) {
+  left<- 1; right<-  length(nums)
+  while(left<= right) {
+   mid<- (left+right) %/% 2
+   if(nums[mid]==target) { return(TRUE) }
+   else {
+     if(nums[mid]==nums[left]) {left<- left+1}
+     else {
+       if(nums[mid]> nums[left]) { 
+         if(target>= nums[left] & target< nums[mid]) {right<- mid}
+         else {left<- mid}
+       }
+       else {
+         if(target> nums[mid] & target<= nums[right]) {left<- mid}
+         else {right<- mid}
+       }
+     }
+   }
+  }
+  return(FALSE)
+}
+search(c(6,7,9,10,1,2,3,5),8)
+search(c(6,7,9,10,1,2,3,5),1)
+
+##########82. Remove Duplicates from Sorted List II##########
+deleteDuplicatesII<- function(head) {
+  ans<- NULL
+  for(i in 1:length(head)) {
+    if(i==1) {
+      if(head[i]!=head[i+1]) {ans<- c(ans, head[i])}
+    }
+    else {
+      if(i==length(head)) {
+       if(head[i]!=head[i-1]) {ans<- c(ans, head[i])}
+     }
+     else {
+       if(head[i]!=head[i-1] & head[i]!=head[i+1]) {ans<- c(ans, head[i])}
+     }
+    }
+  }
+  return(ans)
+}
+deleteDuplicatesII(c(1,2,3,3,4,4,5))
+
+83. Remove Duplicates from Sorted List##########
+deleteDuplicates<- function(head) {
+  ans<- NULL
+  for(i in 1:length(head)) {
+    if(i==1) {
+      if(head[i+1]!=head[i]) {ans<- c(ans,head[i])}
+    }
+    else {
+      if(head[i]!= head[i-1]) {ans<- c(ans, head[i])}
+    }
+  }
+  return(ans)
+}
+deleteDuplicates(c(1,2,3,3,4,4,5))
+
+##########84. Largest Rectangle in Histogram##########
+#Compute the area of each possible rectangle:
+#For one bar(A), looking at the bars from both sides. 
+#Take one side at first, When the height beside is larger,
+#add the height of A once and continue to look at the next 
+#bar. Repeat the work and stop when the height is smaller 
+#than A.
+largestRectangleArea<- function(heights) {
+  n<- length(heights)
+  ans<- NULL
+  for(i in 1:n) {
+    area<- -heights[i]
+    for(j in i:length(heights)) {
+      if(heights[j]>=heights[i]) {area<- area+heights[i]}
+      else {break}
+      }
+    for(j in i:1) {
+      if(heights[j]>= heights[i]) {area<- area+heights[i]}
+      else {break}
+    }
+    ans<- c(ans, area)
+  }
+  return(max(ans))
+}
+largestRectangleArea(c(2,1,5,6,2,3))
+
+##########85. Maximal Rectangle##########
+maximalRectangle<- function(matrix) {
+  m<- nrow(matrix); n<- ncol(matrix)
+  ans<- 0
+  for(i in 1:m) { for(j in 1:n) {
+      if(matrix[i,j]!=0) {
+        for(l in i:m) { for(k in j:n) {
+            area<- (l-i+1)*(k-j+1)
+            if(sum(matrix[i:l, j:k])==area) {ans<- max(ans,area)}
+            else {break}
+        }}
+        for(k in j:n) { for(l in i:m) {
+          area<- (l-i+1)*(k-j+1)
+          if(sum(matrix[i:l, j:k])==area) {ans<- max(ans,area)}
+          else {break}
+        }}
+      }
+  }}
+  return(ans)
+}
+matrix<- t(matrix(c(1,0,1,0,0,
+                    1,0,1,1,1,
+                    1,1,1,1,1,
+                    1,0,0,1,0), 5))
+maximalRectangle(matrix)
+
+
 
 
 
