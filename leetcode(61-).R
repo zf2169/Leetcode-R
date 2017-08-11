@@ -506,7 +506,67 @@ matrix<- t(matrix(c(1,0,1,0,0,
                     1,0,0,1,0), 5))
 maximalRectangle(matrix)
 
+##########86. Partition List##########
+partition<- function(head, x) {
+  less<- NULL; more<- NULL;
+  for(i in head) {
+    if(i<x) {less<- c(less, i)}
+    else {more<- c(more, i)}
+  }
+  return(c(less, more))
+}
+partition(c(1,4,3,2,5,2),3)
 
+##########87. Scramble String##########
+isScramble<- function(s1, s2) {
+  if(nchar(s1)!= nchar(s2)) {return(FALSE)}
+  if(s1==s2) {return(TRUE)}
+  else {
+    n<- nchar(s1)
+    for(i in 1:(n-1)) {
+      ss11<- substr(s1,1,i); ss12<- substr(s1,i+1,n)
+      ss21<- substr(s2,1,i); ss22<- substr(s2,i+1,n)
+    if(Recall(ss11,ss21)& Recall(ss12, ss22)) { 
+        return(TRUE)
+      }
+    else {if(Recall(ss11, ss22)& Recall(ss12,ss21)) {
+        return(TRUE)
+      }
+    }    
+    return(FALSE)
+    }
+  }
+}
+
+s1<- "great"; s2<- "rgtae"
+isScramble(s1,s2)
+
+##########88. Merge Sorted Array##########
+mymerge<- function(nums1, nums2) {
+  i<- length(nums1); j<- length(nums2); k<- i+j
+  nums1<- c(nums1, nums2)
+  while(j>=1) {
+    if(nums1[i]>=nums2[j]) {nums1[k]<- nums1[i]; i<- i-1; k<-k-1;}
+    else {nums1[k]<- nums2[j]; j<- j-1;k<-k-1;}
+  }
+  return(nums1)
+}
+mymerge(c(3,5,7,8,10), c(4,6,9,10))
+
+##########89. Gray Code##########
+grayCode<- function(n) {
+  sub<- function(n) {
+    if(n==1) {return(c(0,1))}
+    else { mat<- apply(cbind(1, Recall(n-1)), 2, rev)
+      return(rbind(cbind(0,Recall(n-1)),mat)) }
+  }
+  ans<- apply(sub(n), 1, function(x) 
+    {strtoi(paste(as.character(x), collapse = ""), base = 2L)})
+  return(ans)
+}
+grayCode(4)
+
+##########
 
 
 
