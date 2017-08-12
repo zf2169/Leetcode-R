@@ -439,7 +439,7 @@ deleteDuplicatesII<- function(head) {
 }
 deleteDuplicatesII(c(1,2,3,3,4,4,5))
 
-83. Remove Duplicates from Sorted List##########
+##########83. Remove Duplicates from Sorted List##########
 deleteDuplicates<- function(head) {
   ans<- NULL
   for(i in 1:length(head)) {
@@ -566,7 +566,79 @@ grayCode<- function(n) {
 }
 grayCode(4)
 
-##########
+##########90. Subsets II##########
+subsetsWithDup<- function(nums) {
+  library(gtools)
+  n<- length(nums); ans<-vector("list");
+  ans[[1]]<- NULL; ans[[2]]<- matrix(unique(nums), ncol = 1)
+  for(i in 2:n) {
+    index<- combinations(n, i)
+    a<- apply(index, 1, function(x) {nums[x]})
+    a<- t(apply(a, 2, sort))
+    ans[[i+1]] <- a[!duplicated(a),]
+  }
+  return(ans)
+}
+subsetsWithDup(c(1,2,2))
+
+##########91. Decode Ways##########
+numDecodings<- function(s) {
+  n<- nchar(s); string<- unlist(strsplit(s, ""));
+  if(n==1) {return(1)}
+  if(n==2) {if(as.numeric(s)<=26) {return(2)}
+    else {return(1)}}
+  else {
+    a<- paste(string[-1], collapse = "")
+    b<- paste(string[-(1:2)], collapse = "")
+    if(as.numeric(paste(string[1:2], collapse = "")) <= 26) {
+      return(sum(Recall(a),Recall(b)))
+    }
+    else {return(sum(Recall(a)))}
+  }
+}
+numDecodings("12")
+numDecodings("1111")
+
+##########92. Reverse Linked List II##########
+reverseBetween<- function(head, m, n) {
+  head[m:n]<- rev(head[m:n])
+  return(head)
+}
+reverseBetween(c(1,2,3,4,5),1,4)
+
+##########93. Restore IP Addresses##########
+restoreIpAddresses<- function(s) {
+  valid<- function(string) {
+    if (string[1] == "0" & nchar(string)> 1) {return(FALSE)}
+    if (nchar(string) == 3) {return(as.numeric(string) <=255)}
+    if (nchar(string) > 3) {return(FALSE)}
+    return(TRUE)
+  }
+  ans<- NULL
+  #seperate the string to four parts and judge each substring
+  #is valid or not
+  for(one in 1:3) {
+    for(two in (one+1):min(one+3, nchar(s))) {
+      for(three in (two+1):min(two+3, nchar(s))) {
+        s1<- substr(s, 1, one); s2<- substr(s,one+1, two)
+        s3<- substr(s, two+1, three); s4<- substr(s, three+1, nchar(s))
+        if(valid(s1) & valid(s2) & valid(s3) & valid(s4)) {
+          ip<- paste(s1, ".",s2, ".",s3,".",s4, sep = "")
+          ans<- rbind(ans, ip)
+        } } } }
+  return(ans)
+}
+restoreIpAddresses("25525511135")
+restoreIpAddresses("252551135")
+
+##########94. Binary Tree Inorder Traversal##########
+
+
+
+
+
+
+
 
 
 
