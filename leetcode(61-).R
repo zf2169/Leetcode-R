@@ -631,7 +631,163 @@ restoreIpAddresses<- function(s) {
 restoreIpAddresses("25525511135")
 restoreIpAddresses("252551135")
 
-##########94. Binary Tree Inorder Traversal##########
+##########97. Interleaving String##########
+findindex<- function(l) {
+  if(length(l)==1) {return(matrix(l[[1]], ncol = 1))}
+  else {
+    begin<- l[[1]]; then<- l[[2]]; ans<- NULL
+    for(i in 1:length(begin)) {
+      a<- then[then > begin[i]]
+      ll<- l[-1]; ll[[1]]<- a
+      if(length(a)!=0) { 
+        ans<- rbind(ans, cbind(begin[i], Recall(ll)))
+        return(ans)
+      } } }
+}
+isInterleave<- function(s1, s2, s3) {
+  if(nchar(s3)!=nchar(s1)+nchar(s2)) {return(FALSE)}
+  else {
+    string1<- unlist(strsplit(s1, ""))
+    string3<- unlist(strsplit(s3, ""))
+    l<- lapply(string1, function(x) {which(string3==x)})
+    index<- findindex(l); n<- nrow(index)
+    for(i in 1:n) {
+      subs<- paste(string3[-index[i,]] ,collapse = "")
+      if(subs==s2) {return(TRUE)}
+    }
+    return(FALSE)
+  }
+}
+s1 = "aabcc";s2 = "dbbca";s3 = "aadbbcbcac";
+s4 = "aadbbbaccc"
+isInterleave(s1,s2,s3)
+isInterleave(s1,s2,s4)
+
+##########98. Validate Binary Search Tree##########
+isValidBST<- function(root) {
+  n_tree<- floor(log(length(root), 2))
+  if(n_tree==1) { 
+    if(root[2]<root[1] & root[3]>root[1]) {return(TRUE)}
+    else {return(FALSE)}}
+  else {
+    down<- 2^(n_tree-1); up<- 2^n_tree-1
+    limit<- length(root) %/% 2; judge<- 1;
+    for(i in down: min(up,limit)) {
+      subroot<- c(root[i], root[2*i], root[2*i+1])
+      if(!Recall(subroot)) {return(FALSE)}
+    }
+    return(TRUE)
+  }
+}
+root<- c(2,1,3,4,5,6,7)
+isValidBST(root)
+
+##########99. Recover Binary Search Tree##########
+recoverTree<- function(root) {
+  
+  
+  
+}
+
+##########101. Symmetric Tree##########
+isSymmetric <- function(root) {
+  ntree<- floor(log(length(root), 2))
+  if(ntree==1) {
+    if(root[3]==root[2]) {return(TRUE)}
+    else {return(FALSE)}
+  }
+  else {
+    down<- 2^ntree; up<- 2^(ntree+1)-1; mid<- (down+up-1)/2;
+    if(identical(root[down:mid],root[up:(mid+1)])) {
+      Recall(root[-(down:up)])}
+    else {return(FALSE)}
+  }
+}
+root<- c(1,2,2,3,4,4,3)
+isSymmetric(c(1,2,2,3,4,4,3))
+
+##########102. Binary Tree Level Order Traversal##########
+levelOrder<- function(root) {
+  ntree<- floor(log(length(root), 2))
+  ans<- vector("list", ntree+1)
+  for(i in (ntree+1):1) {
+    head<- 2^(i-1); tail<- min(2^i-1, length(root));
+    tree<- root[head:tail]; tree<- tree[!is.na(tree)];
+    ans[[i]]<- tree
+  }
+  return(ans)
+}
+root<- c(3,9,20,NA,NA,15,7)
+levelOrder(root)
+
+##########103. Binary Tree Zigzag Level Order Traversal#########
+zigzagLevelOrder<- function(root) {
+  ntree<- floor(log(length(root), 2))
+  ans<- vector("list", ntree+1)
+  for(i in (ntree+1):1) {
+    head<- 2^(i-1); tail<- min(2^i-1, length(root));
+    tree<- root[head:tail]; tree<- tree[!is.na(tree)];
+    if(i%%2==0) {  ans[[i]]<- rev(tree) }
+    else { ans[[i]]<- tree }
+  }
+  return(ans)
+}
+zigzagLevelOrder(c(3,9,20,NA,NA,15,7))
+
+##########104. Maximum Depth of Binary Tree##########
+maxDepth<- function(root) {
+  return(floor(log(length(root), 2))+1)
+}
+
+##########104. Maximum Depth of Binary Tree##########
+
+
+
+#-114 binary tree problems####
+
+##########115. Distinct Subsequences##########
+numDistinct<- function(s, t) {
+  n1<- nchar(s); n2<- nchar(t)
+  if(n2>n1) {return("error")}
+  if(n2==n1 & s!=t) {return("error")}
+  if(n2==n1 & s==t) {return(1)}
+  else {
+    string_s<- unlist(strsplit(s, ""))
+    string_t<- unlist(strsplit(t, ""))
+    index<- combinations(n1, n1-n2)
+    sub_s<-apply(index, 1, function(x) {string_s[-x]})
+    return(sum(colSums(sub_s==string_t)==n2))
+  }
+}
+s = "rabbbit"; t = "rabt"
+numDistinct(s, t)
+numDistinct("ABCDE", "AEC")
+
+##########118. Pascal's Triangle##########
+generate<- function(numRows) {
+  if(numRows==1) {return(1)}
+  if(numRows==2) {return(matrix(c(1,NA),c(1,1)))}
+  else {
+    ans<- matrix(NA, nrow = numRows, ncol = numRows)
+    ans[,1]<- 1; ans[2,c(1,2)]<- 1;
+    for(i in 3:numRows) {
+      for(j in 2:(i-1)) {ans[i,j]<- ans[i-1,j-1]+ans[i-1,j]}
+      ans[i,j+1]<- 1
+    }
+  }
+  return(ans)
+}
+generate(5)
+
+##########119. Pascal's Triangle II##########
+
+
+
+
+
+
+
+
 
 
 
